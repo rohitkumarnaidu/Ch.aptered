@@ -20,9 +20,9 @@
   --color-border: #e2d8c8;
   --color-border-dark: #d5c8b4;
   --color-card: #ffffff;
-  --color-pink: #6B2040;
+  --color-pink: #3d1528;
   --color-pink-lite: #8B3A5E;
-  --color-pink-dark: #4A1528;
+  --color-pink-dark: #2a0f1b;
 }
 
 @layer base {
@@ -33,9 +33,12 @@
   body {
     font-family: var(--font-sans);
     background-color: var(--color-pink);
-    color: var(--color-ink);
+    color: #ffffff;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+  }
+  nav {
+    color: var(--color-ink);
   }
 }
 
@@ -69,12 +72,12 @@
   }
   .btn-o {
     background: transparent;
-    color: var(--color-ink);
+    color: #f0b060;
     padding: .65rem 1.6rem;
     border-radius: 50px;
     font-weight: 600;
     font-size: .9rem;
-    border: 2px solid var(--color-border);
+    border: 2px solid #f0b060;
     transition: border-color .2s, background .2s;
     cursor: pointer;
     font-family: var(--font-sans);
