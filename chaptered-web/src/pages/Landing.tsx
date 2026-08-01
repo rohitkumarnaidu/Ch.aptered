@@ -9,7 +9,7 @@ export const Landing = () => {
   const books = useLibraryStore((s) => s.books);
   const sessions = useLibraryStore((s) => s.sessions);
 
-  const totalPages = sessions.reduce((a, s) => a + s.pages, 0);
+  const totalPages = sessions.reduce((a: number, s: { pages: number }) => a + s.pages, 0);
   const streak = getStreak(sessions);
 
   useEffect(() => {
@@ -32,48 +32,6 @@ export const Landing = () => {
 
   return (
     <div className="landing-page">
-
-      <nav>
-        <a className="logo" href="/">Ch<span>.</span>aptered</a>
-        <ul className="nav-links" id="nl">
-          <li><a href="#features">Features</a></li>
-          <li><a href="#how">How it Works</a></li>
-          <li><a href="#why">Why Read</a></li>
-          <li><Link to="/library">Library</Link></li>
-          <li><a href="#roadmap">Roadmap</a></li>
-          {isAuthenticated ? (
-            <>
-              <li className="flex items-center text-muted font-bold text-sm tracking-wide">
-                @{user?.username}
-              </li>
-              <li>
-                <button
-                  onClick={logout}
-                  className="text-red-700 hover:text-red-800 font-bold text-sm cursor-pointer transition-colors"
-                >
-                  Logout
-                </button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
-                <Link to="/login" className="font-bold text-sm">
-                  Login
-                </Link>
-              </li>
-              <li>
-                <Link to="/signup" className="font-bold text-sm text-amber hover:text-amber-deep">
-                  Sign Up
-                </Link>
-              </li>
-            </>
-          )}
-        </ul>
-        <button className="mbtn" id="mb" aria-label="Menu">
-          <svg width="22" height="22" viewBox="0 0 22 22"><rect y="3" width="22" height="2" rx="1" fill="#1a1208"/><rect y="10" width="22" height="2" rx="1" fill="#1a1208"/><rect y="17" width="22" height="2" rx="1" fill="#1a1208"/></svg>
-        </button>
-      </nav>
 
       <section className="hero">
         <div className="hero-bg"></div>

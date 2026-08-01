@@ -10,7 +10,7 @@ export const Profile: React.FC = () => {
   if (!user) return null;
 
   return (
-    <div className="page-pad min-h-screen">
+    <div className="page-pad min-h-screen bg-cream">
       <div className="page-med">
         <div className="card-r p-8 md:p-10 mb-8 text-center">
           <div className="w-20 h-20 rounded-full bg-amber text-white flex items-center justify-center text-3xl font-bold mx-auto shadow-lg shadow-amber/30">

@@ -25,11 +25,11 @@ export const Discover: React.FC = () => {
   });
 
   return (
-    <div className="page-pad min-h-screen">
+    <div className="page-pad min-h-screen bg-cream">
       <div className="page-wide">
         <div className="text-center mb-10">
-          <h1 className="font-serif text-4xl md:text-5xl font-black text-cream tracking-tight">Discover Books</h1>
-          <p className="text-cream/70 mt-3 text-lg max-w-lg mx-auto">Browse your library and find your next great read.</p>
+          <h1 className="font-serif text-4xl md:text-5xl font-black text-ink tracking-tight">Discover Books</h1>
+          <p className="text-muted mt-3 text-lg max-w-lg mx-auto">Browse your library and find your next great read.</p>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 mb-10 items-center justify-between">
