@@ -25,16 +25,16 @@ export const ClubSettings: React.FC = () => {
   }, [currentClub]);
 
   if (!user || !id) return null;
-  if (loading) return <div className="page-pad min-h-screen flex items-center justify-center"><div className="sk w-8 h-8 rounded-full" /></div>;
-  if (error) return <div className="page-pad min-h-screen flex items-center justify-center"><p className="text-red-300">{error}</p></div>;
+  if (loading) return <div className="page-pad min-h-screen bg-cream flex items-center justify-center"><div className="sk w-8 h-8 rounded-full" /></div>;
+  if (error) return <div className="page-pad min-h-screen bg-cream flex items-center justify-center"><p className="text-red-500">{error}</p></div>;
   if (!currentClub) return null;
 
   const isAdmin = currentClub.owner._id === user.id;
   if (!isAdmin) {
     return (
-      <div className="page-pad min-h-screen flex items-center justify-center">
+      <div className="page-pad min-h-screen bg-cream flex items-center justify-center">
         <div className="text-center">
-          <p className="text-cream/70 text-lg font-semibold">Only admins can access settings.</p>
+          <p className="text-muted text-lg font-semibold">Only admins can access settings.</p>
           <button onClick={() => navigate(`/clubs/${id}`)} className="btn mt-4">Back to Club</button>
         </div>
       </div>
@@ -86,14 +86,14 @@ export const ClubSettings: React.FC = () => {
   const members = currentClub.members || [];
 
   return (
-    <div className="page-pad min-h-screen">
+    <div className="page-pad min-h-screen bg-cream">
       <div className="page-wide">
-        <button onClick={() => navigate(`/clubs/${id}`)} className="text-sm font-semibold text-cream/70 hover:text-amber transition-colors mb-5 flex items-center gap-1.5">
+        <button onClick={() => navigate(`/clubs/${id}`)} className="text-sm font-semibold text-muted hover:text-amber transition-colors mb-5 flex items-center gap-1.5">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
           Back to {currentClub.name}
         </button>
 
-        <h1 className="font-serif text-3xl font-black text-cream tracking-tight mb-6">Club Settings</h1>
+        <h1 className="font-serif text-3xl font-black text-ink tracking-tight mb-6">Club Settings</h1>
 
         {pending.length > 0 && (
           <div className="card-r p-6 mb-6">

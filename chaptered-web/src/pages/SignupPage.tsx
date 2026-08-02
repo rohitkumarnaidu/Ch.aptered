@@ -41,7 +41,7 @@ export const SignupPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen bg-cream flex">
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-ink to-ink-soft relative overflow-hidden items-center justify-center p-12">
         <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle at 25% 25%, #d4863a 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-amber/8 rounded-full blur-3xl" />

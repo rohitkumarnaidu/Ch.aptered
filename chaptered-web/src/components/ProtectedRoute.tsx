@@ -7,7 +7,7 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { isAuthenticated, isLoading, authError, retryAuth } = useAuth();
+  const { isAuthenticated, isLoading, authError, retryAuth, logout } = useAuth();
 
   if (isLoading) {
     return (
@@ -44,7 +44,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
           <div className="bg-red-50 border border-red-200 rounded-2xl p-8 max-w-md text-center">
             <p className="text-red-600 font-bold text-lg mb-2">Connection Lost</p>
             <p className="text-red-500 text-sm leading-relaxed">{authError}</p>
-            <button onClick={retryAuth} className="btn mt-5">Retry</button>
+            <div className="flex gap-3 justify-center mt-5">
+              <button onClick={retryAuth} className="btn">Retry</button>
+              <button onClick={logout} className="btn-o">Sign In Again</button>
+            </div>
           </div>
         </div>
       );

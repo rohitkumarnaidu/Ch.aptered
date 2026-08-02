@@ -51,7 +51,7 @@ export const CreateClub: React.FC = () => {
   };
 
   return (
-    <div className="page-pad min-h-screen flex items-center justify-center">
+    <div className="page-pad min-h-screen bg-cream flex items-center justify-center">
       <div className="page-med w-full">
         <div className="card-r p-8 md:p-10">
           <div className="text-center mb-8">

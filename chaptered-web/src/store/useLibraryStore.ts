@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { generateId } from '../lib/bookUtils';
 
-
 export interface Book {
   id: string;
   title: string;
@@ -22,6 +21,52 @@ export interface ReadingSession {
   note?: string;
   date: string;
   timestamp: string;
+}
+
+export interface AddBookInput {
+  title: string;
+  author: string;
+  genre: string;
+  pages: number;
+  desc?: string;
+  color: string;
+  hasPdf?: boolean;
+  file?: File | null;
+}
+
+export interface UpdateBookInput {
+  title?: string;
+  author?: string;
+  genre?: string;
+  pages?: number;
+  desc?: string;
+  color?: string;
+  file?: File | null;
+}
+
+export interface AddSessionInput {
+  bookId: string;
+  pages: number;
+  note?: string;
+}
+
+export interface LibraryStore {
+  books: Book[];
+  sessions: ReadingSession[];
+  fetchBooks: () => Promise<void>;
+  fetchSessions: () => Promise<void>;
+  addBook: (input: AddBookInput) => Promise<void>;
+  updateBook: (id: string, updates: UpdateBookInput) => Promise<void>;
+  deleteBook: (id: string) => Promise<void>;
+  addSession: (input: AddSessionInput) => Promise<void>;
+  deleteSession: (id: string) => Promise<void>;
+  getSessionsForBook: (bookId: string) => ReadingSession[];
+  pagesFor: (bookId: string) => number;
+  getBookProgress: (bookId: string) => number;
+  getTotalPagesRead: () => number;
+  getStreak: () => number;
+  getBooksStats: () => { total: number; completed: number; reading: number; notStarted: number };
+  getBookPdfUrl: (bookId: string) => string | null;
 }
 
 function fileToBase64(file: File): Promise<string> {
@@ -119,7 +164,7 @@ export const useLibraryStore = create<LibraryStore>()(
         }
       },
 
-      addBook: async (input) => {
+      addBook: async (input: AddBookInput) => {
         const { file, ...rest } = input;
 
         try {
@@ -143,7 +188,7 @@ export const useLibraryStore = create<LibraryStore>()(
                 toast('PDF upload failed.', 'warn');
               }
             }
-            set((s) => ({ books: [...s.books, mapBackendBook({ ...newBook, hasPdf: pdfOk })] }));
+            set((s: LibraryStore) => ({ books: [...s.books, mapBackendBook({ ...newBook, hasPdf: pdfOk })] }));
             return;
           }
           const errData = await res.json().catch(() => ({}));
@@ -161,7 +206,7 @@ export const useLibraryStore = create<LibraryStore>()(
           hasPdf: !!file,
           pages: Number(rest.pages),
         };
-        set((s) => ({ books: [...s.books, newBook] }));
+        set((s: LibraryStore) => ({ books: [...s.books, newBook] }));
         if (file) {
           try {
             const base64 = await fileToBase64(file);
@@ -175,9 +220,9 @@ export const useLibraryStore = create<LibraryStore>()(
         }
       },
 
-      updateBook: async (id, updates) => {
+      updateBook: async (id: string, updates: UpdateBookInput) => {
         const { file, ...patch } = updates;
-        let hasPdf = get().books.find((b) => b.id === id)?.hasPdf || false;
+        let hasPdf = get().books.find((b: Book) => b.id === id)?.hasPdf || false;
         if (file) {
           try {
             const base64 = await fileToBase64(file);
@@ -190,8 +235,8 @@ export const useLibraryStore = create<LibraryStore>()(
             toast('PDF update failed.', 'err');
           }
         }
-        set((s) => ({
-          books: s.books.map((b) =>
+        set((s: LibraryStore) => ({
+          books: s.books.map((b: Book) =>
             b.id === id ? { ...b, ...patch, pages: Number(patch.pages) || b.pages, hasPdf } : b
           ),
         }));
@@ -205,10 +250,10 @@ export const useLibraryStore = create<LibraryStore>()(
         }
       },
 
-      deleteBook: async (id) => {
-        set((s) => ({
-          books: s.books.filter((b) => b.id !== id),
-          sessions: s.sessions.filter((sess) => sess.bookId !== id),
+      deleteBook: async (id: string) => {
+        set((s: LibraryStore) => ({
+          books: s.books.filter((b: Book) => b.id !== id),
+          sessions: s.sessions.filter((sess: ReadingSession) => sess.bookId !== id),
         }));
         try {
           await authFetch(`/api/books/${id}`, { method: 'DELETE' });
@@ -217,8 +262,8 @@ export const useLibraryStore = create<LibraryStore>()(
         }
       },
 
-      addSession: async (input) => {
-        const book = get().books.find((b) => b.id === input.bookId);
+      addSession: async (input: AddSessionInput) => {
+        const book = get().books.find((b: Book) => b.id === input.bookId);
         if (!book) return;
         const newSession: ReadingSession = {
           id: generateId(),
@@ -228,7 +273,7 @@ export const useLibraryStore = create<LibraryStore>()(
           date: new Date().toISOString().slice(0, 10),
           timestamp: new Date().toISOString(),
         };
-        set((s) => ({ sessions: [...s.sessions, newSession] }));
+        set((s: LibraryStore) => ({ sessions: [...s.sessions, newSession] }));
         try {
           await authFetch('/api/sessions', {
             method: 'POST',
@@ -246,8 +291,8 @@ export const useLibraryStore = create<LibraryStore>()(
         }
       },
 
-      deleteSession: async (id) => {
-        set((s) => ({ sessions: s.sessions.filter((sess) => sess.id !== id) }));
+      deleteSession: async (id: string) => {
+        set((s: LibraryStore) => ({ sessions: s.sessions.filter((sess: ReadingSession) => sess.id !== id) }));
         try {
           await authFetch(`/api/sessions/${id}`, { method: 'DELETE' });
         } catch {
@@ -255,28 +300,28 @@ export const useLibraryStore = create<LibraryStore>()(
         }
       },
 
-      getSessionsForBook: (bookId) =>
+      getSessionsForBook: (bookId: string) =>
         get()
-          .sessions.filter((s) => s.bookId === bookId)
-          .sort((a, b) => b.timestamp.localeCompare(a.timestamp)),
+          .sessions.filter((s: ReadingSession) => s.bookId === bookId)
+          .sort((a: ReadingSession, b: ReadingSession) => b.timestamp.localeCompare(a.timestamp)),
 
-      pagesFor: (bookId) =>
+      pagesFor: (bookId: string) =>
         get()
-          .sessions.filter((s) => s.bookId === bookId)
-          .reduce((sum, s) => sum + s.pages, 0),
+          .sessions.filter((s: ReadingSession) => s.bookId === bookId)
+          .reduce((sum: number, s: ReadingSession) => sum + s.pages, 0),
 
-      getBookProgress: (bookId) => {
-        const book = get().books.find((b) => b.id === bookId);
+      getBookProgress: (bookId: string) => {
+        const book = get().books.find((b: Book) => b.id === bookId);
         if (!book || !book.pages) return 0;
         return Math.min(100, Math.round((get().pagesFor(bookId) / book.pages) * 100));
       },
 
-      getTotalPagesRead: () => get().sessions.reduce((sum, s) => sum + s.pages, 0),
+      getTotalPagesRead: () => get().sessions.reduce((sum: number, s: ReadingSession) => sum + s.pages, 0),
 
       getStreak: () => {
         const ss = get().sessions;
         if (!ss.length) return 0;
-        const days = [...new Set(ss.map((s) => s.date))].sort().reverse();
+        const days = [...new Set(ss.map((s: ReadingSession) => s.date))].sort((a: string, b: string) => b.localeCompare(a));
         const t = new Date().toISOString().slice(0, 10);
         const y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
         if (days[0] !== t && days[0] !== y) return 0;
@@ -291,7 +336,7 @@ export const useLibraryStore = create<LibraryStore>()(
       getBooksStats: () => {
         const books = get().books;
         let completed = 0, reading = 0, notStarted = 0;
-        books.forEach((b) => {
+        books.forEach((b: Book) => {
           const p = get().getBookProgress(b.id);
           if (p >= 100) completed++;
           else if (p > 0) reading++;
@@ -300,14 +345,14 @@ export const useLibraryStore = create<LibraryStore>()(
         return { total: books.length, completed, reading, notStarted };
       },
 
-      getBookPdfUrl: (bookId) => {
-        const book = get().books.find((b) => b.id === bookId);
+      getBookPdfUrl: (bookId: string) => {
+        const book = get().books.find((b: Book) => b.id === bookId);
         return book?.hasPdf ? PDF_ENDPOINT(bookId) : null;
       },
     }),
     {
       name: 'chaptered-library-storage',
-      partialize: (state) => ({ books: state.books, sessions: state.sessions }),
+      partialize: (state: LibraryStore) => ({ books: state.books, sessions: state.sessions }),
     }
   )
 );

@@ -78,20 +78,20 @@ export const ClubDetail: React.FC = () => {
   const handleLeave = async () => { if (!id) return; await leaveClub(id); navigate('/clubs'); };
 
   if (loading) return (
-    <div className="page-pad min-h-screen flex items-center justify-center">
+    <div className="page-pad min-h-screen bg-cream flex items-center justify-center">
       <div className="sk w-8 h-8 rounded-full" />
     </div>
   );
 
   if (error) return (
-    <div className="page-pad min-h-screen flex items-center justify-center">
-      <div className="text-center"><p className="text-red-300 font-semibold">{error}</p><button onClick={() => navigate('/clubs')} className="btn mt-4">Back to Clubs</button></div>
+    <div className="page-pad min-h-screen bg-cream flex items-center justify-center">
+      <div className="text-center"><p className="text-red-500 font-semibold">{error}</p><button onClick={() => navigate('/clubs')} className="btn mt-4">Back to Clubs</button></div>
     </div>
   );
 
   if (!currentClub) return (
-    <div className="page-pad min-h-screen flex items-center justify-center">
-      <div className="text-center"><p className="text-cream/70">Club not found.</p><button onClick={() => navigate('/clubs')} className="btn mt-4">Back to Clubs</button></div>
+    <div className="page-pad min-h-screen bg-cream flex items-center justify-center">
+      <div className="text-center"><p className="text-muted">Club not found.</p><button onClick={() => navigate('/clubs')} className="btn mt-4">Back to Clubs</button></div>
     </div>
   );
 
@@ -105,10 +105,10 @@ export const ClubDetail: React.FC = () => {
   };
 
   return (
-    <div className="page-pad min-h-screen">
+    <div className="page-pad min-h-screen bg-cream">
       <div className="page-wide">
         <div className="flex items-center justify-between mb-5">
-          <button onClick={() => navigate('/clubs')} className="text-sm font-semibold text-cream/70 hover:text-amber transition-colors flex items-center gap-1.5">
+          <button onClick={() => navigate('/clubs')} className="text-sm font-semibold text-muted hover:text-amber transition-colors flex items-center gap-1.5">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
             Back to Clubs
           </button>

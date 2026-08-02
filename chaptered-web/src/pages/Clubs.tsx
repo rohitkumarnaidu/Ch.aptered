@@ -34,12 +34,12 @@ export const Clubs: React.FC = () => {
   const visibleClubs = view === 'all' ? clubs.filter((c) => c.type !== 'private') : clubs;
 
   return (
-    <div className="page-pad min-h-screen">
+    <div className="page-pad min-h-screen bg-cream">
       <div className="page-wide">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-5 mb-8">
           <div>
-            <h1 className="font-serif text-3xl md:text-4xl font-black text-cream tracking-tight">Book Clubs</h1>
-            <p className="text-cream/70 mt-1.5">Join a club or create your own reading community.</p>
+            <h1 className="font-serif text-3xl md:text-4xl font-black text-ink tracking-tight">Book Clubs</h1>
+            <p className="text-muted mt-1.5">Join a club or create your own reading community.</p>
           </div>
           <Link to="/clubs/create" className="btn shrink-0">+ Create Club</Link>
         </div>

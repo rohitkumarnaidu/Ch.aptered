@@ -66,12 +66,12 @@ export const Dashboard: React.FC = () => {
   stats?.heatmap?.forEach((d) => { heatmapByDate[d.date] = { pages: d.pages, level: d.level }; });
 
   return (
-    <div className="page-pad min-h-screen">
+    <div className="page-pad min-h-screen bg-cream">
       <div className="page-wide">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="font-serif text-3xl md:text-4xl font-black text-cream tracking-tight">Dashboard</h1>
-            <p className="text-cream/70 mt-1 text-sm">Your reading activity at a glance.</p>
+            <h1 className="font-serif text-3xl md:text-4xl font-black text-ink tracking-tight">Dashboard</h1>
+            <p className="text-muted mt-1 text-sm">Your reading activity at a glance.</p>
           </div>
         </div>
 

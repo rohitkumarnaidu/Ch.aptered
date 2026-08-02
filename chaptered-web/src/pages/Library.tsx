@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useLibraryStore } from '../store/useLibraryStore';
+import { useLibraryStore, type Book, type ReadingSession } from '../store/useLibraryStore';
 import { compressPDF, detectPages } from '../lib/pdfUtils';
 import { formatSessionDate } from '../lib/bookUtils';
 import { AddBookModal } from '../components/AddBookModal';
@@ -261,33 +261,6 @@ export const Library = () => {
 
   return (
     <div className="library">
-
-      {/* NAV */}
-      <nav>
-        <Link to="/" className="logo">Ch<span>.</span>aptered</Link>
-        <ul className="nav-links" id="nl">
-          <li><a href="/#features">Features</a></li>
-          <li><a href="/#how">How it Works</a></li>
-          <li><a href="/#why">Why Read</a></li>
-          <li><Link to="/library" className="active">Library</Link></li>
-          <li><a href="/#roadmap">Roadmap</a></li>
-          <li className="flex items-center text-muted font-bold text-sm tracking-wide">
-            @{user?.username}
-          </li>
-          <li>
-            <button
-              onClick={logout}
-              className="text-red-700 hover:text-red-800 font-bold text-sm cursor-pointer transition-colors"
-            >
-              Logout
-            </button>
-          </li>
-        </ul>
-        <a className="nav-back" href="/">← Home</a>
-        <button className="mbtn" id="mb" aria-label="Menu" onClick={() => document.getElementById('nl')?.classList.toggle('open')}>
-          <svg width="22" height="22" viewBox="0 0 22 22"><rect y="3" width="22" height="2" rx="1" fill="#1a1208"/><rect y="10" width="22" height="2" rx="1" fill="#1a1208"/><rect y="17" width="22" height="2" rx="1" fill="#1a1208"/></svg>
-        </button>
-      </nav>
 
       {/* PAGE HERO */}
       <div className="ph">
